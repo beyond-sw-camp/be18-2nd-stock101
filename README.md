@@ -1,4 +1,4 @@
-# 📈Stock101(가제) - 투자를 근거있게
+# 📈Stock101 - 투자를 근거있게
 
 ## 📌 프로젝트 요구사항 요약
 
@@ -42,11 +42,11 @@
 ## 요구 사항 정의서
 https://docs.google.com/spreadsheets/d/14wwJn_T3o99kF_oEq8uZ0xYGWGwoTiGmOdv44CbQwt0/edit?gid=0#gid=0
 
---
+---
 ## ERD
 <img width="2808" height="1647" alt="Stock101-3" src="https://github.com/user-attachments/assets/c13278dc-4556-4397-8f58-511caae2f100" />
 
 
---
+---
 ## 테이블 명세서
 https://docs.google.com/spreadsheets/d/1aHppUl-7VBDqVcq6Ckb8BzpCgmxDSZCnURZARkLruMo/edit?usp=sharing
