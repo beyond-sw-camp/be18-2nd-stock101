@@ -13,14 +13,14 @@
 - 배당 정보: 최근 4분기 배당금, 배당락일, 수익률 등
 - 기업 이벤트 캘린더: IR 일정, 공시 정보 통합 제공
 
-
+---
 
 ### 📈 2. 시장 데이터
 - 실시간 주가 정보: 종목별 주가 흐름 및 등락률
 - 시장지표: S&P500, 다우지수 등 주요 지수 제공
 - 주식 종목별 데이터 시각화: 차트/히트맵 기반 인터페이스
 
-
+---
 
 ### 👤 3. 유저 기능
 - 회원 관리: 가입, 로그인, 회원탈퇴, 인증 절차
@@ -29,7 +29,7 @@
 - 관심 목록 관리: 종목 즐겨찾기 및 알림 기능
 - 계정 보안: 비밀번호 변경, 이중 인증 등 보안 강화
 
-
+---
 
 ### 💬 4. 커뮤니티
 - 게시판: 종목 토론, 자유게시판, Q&A 등 다양한 공간 제공
@@ -39,13 +39,16 @@
 - 사용자 등급/평판 시스템: 활동 기반 등급 부여 및 뱃지 시스템
 
 
-## 요구 사항 정의서
-https://docs.google.com/spreadsheets/d/14wwJn_T3o99kF_oEq8uZ0xYGWGwoTiGmOdv44CbQwt0/edit?gid=0#gid=0
+## [📋 요구사항 명세서](https://docs.google.com/spreadsheets/d/14wwJn_T3o99kF_oEq8uZ0xYGWGwoTiGmOdv44CbQwt0/edit?gid=434890356#gid=434890356)
+<img width="1428" height="819" alt="image" src="https://github.com/user-attachments/assets/aaf346ab-7e0c-4373-b899-f4df031fd0d0" />
 
+---
 
 ## ERD
 <img width="2808" height="1647" alt="Stock101-3" src="https://github.com/user-attachments/assets/c13278dc-4556-4397-8f58-511caae2f100" />
 
+---
 
-## 테이블 명세서
-https://docs.google.com/spreadsheets/d/1aHppUl-7VBDqVcq6Ckb8BzpCgmxDSZCnURZARkLruMo/edit?usp=sharing
+## [🗃️테이블 명세서](https://docs.google.com/spreadsheets/d/1aHppUl-7VBDqVcq6Ckb8BzpCgmxDSZCnURZARkLruMo/edit?usp=sharing)
+<img width="1582" height="744" alt="image" src="https://github.com/user-attachments/assets/81813c0d-3465-46ae-b7c4-3ef0fc4eeaf9" />
+
