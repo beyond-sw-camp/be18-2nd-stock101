@@ -52,3 +52,8 @@
 ## [🗃️테이블 명세서](https://docs.google.com/spreadsheets/d/1aHppUl-7VBDqVcq6Ckb8BzpCgmxDSZCnURZARkLruMo/edit?usp=sharing)
 <img width="1582" height="744" alt="image" src="https://github.com/user-attachments/assets/81813c0d-3465-46ae-b7c4-3ef0fc4eeaf9" />
 
+---
+
+
+## [🎯 API 명세서](https://ber5f1ykpv.apidog.io/)
+<img width="1445" height="1082" alt="image" src="https://github.com/user-attachments/assets/68fbff20-239e-419f-bcd8-bb7c196edfe6" />
