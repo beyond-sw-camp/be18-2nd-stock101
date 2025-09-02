@@ -1,4 +1,4 @@
-package com.monstersinc.stock101.user.controller;
+package com.monstersinc.stock101.stock.controller;
 
 import com.monstersinc.stock101.stock.model.service.StockService;
 import com.monstersinc.stock101.user.model.service.UserService;
