@@ -57,9 +57,3 @@
 ## [🎯 API 명세서](https://ber5f1ykpv.apidog.io/)
 <img width="1445" height="1082" alt="image" src="https://github.com/user-attachments/assets/68fbff20-239e-419f-bcd8-bb7c196edfe6" />
 
----
-
-## [🖼️ 화면 및 기능 설계서](https://www.figma.com/design/kN09ULFVTIaD2JGvK9AaHc/Stock101?node-id=0-1&t=pjEAu65NsUu7obMQ-1)
-<img width="1849" height="1198" alt="image" src="https://github.com/user-attachments/assets/81a8387c-f6ae-4044-8938-4857b474ea99" />
-
-
