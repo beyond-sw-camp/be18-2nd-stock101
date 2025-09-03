@@ -1,10 +1,11 @@
 package com.monstersinc.stock101.stock.controller;
 
-import com.monstersinc.stock101.stock.model.service.StockService;
-import com.monstersinc.stock101.user.model.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.monstersinc.stock101.stock.model.service.StockService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/user-service")
