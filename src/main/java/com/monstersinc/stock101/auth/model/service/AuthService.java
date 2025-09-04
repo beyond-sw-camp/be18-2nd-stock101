@@ -5,4 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public interface AuthService {
     LoginResponse login(@NotBlank String email, @NotBlank String password);
+
+    String createRefreshToken(Long userId);
 }
