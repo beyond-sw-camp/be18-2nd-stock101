@@ -1,0 +1,24 @@
+name: Set reviewers
+
+on:
+  pull_request:
+
+jobs:
+  set-reviewers:
+    name: Set reviewers
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Set reviewers
+        run: |
+          actor="$"
+          reviewers=("jws020501" "xxiuan" "sonhyee" "JINWOO-0715")
+
+          reviewers=($(printf "%s\n" "${reviewers[@]}" | grep -v "$actor" | shuf -n 3))
+          reviewers=$(printf '%s\n' "${reviewers[@]}" | jq -R . | jq -s .)
+
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $" \
+            -d "{ \"reviewers\": $reviewers }" \
+            "https://api.github.com/repos/$/pulls/$/requested_reviewers"
