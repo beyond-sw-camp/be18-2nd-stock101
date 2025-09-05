@@ -34,4 +34,4 @@ build/
 .vscode/
 
 ###application.xml ignore
-src/main/resources/application.yml
+application.yml
