@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### application.xml ignore
-application.yml
+**/application.yml 
