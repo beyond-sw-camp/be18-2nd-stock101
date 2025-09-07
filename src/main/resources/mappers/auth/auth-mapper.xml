@@ -11,17 +11,28 @@
         <result property="createdAt" column="created_at"/>
         <result property="lastLoginAt" column="last_login_at"/>
         <result property="tierCode" column="tier_code"/>
+        <collection property="roles" ofType="string">
+            <result column="role_name"/>
+        </collection>
     </resultMap>
-    
+
+
+
     <select id="selectUserByEmail" parameterType="string" resultMap="userResultMap">
-        SELECT user_id,
+        SELECT u.user_id,
                user_name,
                email,
                password,
                created_at,
                last_login_at,
-               tier_code
+               tier_code,
+               r.role_name
         FROM users u
-        WHERE email = #{email}
+                 LEFT JOIN  user_roles ur ON u.user_id =ur.user_id
+                 LEFT JOIN  roles r ON r.role_id =ur.user_id
+
+        WHERE email = #{email};
     </select>
 </mapper>
+
+

@@ -10,11 +10,29 @@ import java.time.Duration;
 public class JwtCookieServiceImpl implements JwtCookieService {
     @Override
     public HttpHeaders createRefreshTokenCookieHeaders(ResponseCookie cookie) {
-        return null;
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return headers;
     }
 
     @Override
     public ResponseCookie createRefreshTokenCookie(String refreshToken, Duration duration) {
-        return null;
+
+        return ResponseCookie
+                .from("refresh_token",refreshToken)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(duration)
+                .build();
+
+    }
+
+    @Override
+    public ResponseCookie deleteRefreshTokenCookie() {
+        // 토큰을 바로 만료 처리한다.
+        return createRefreshTokenCookie("", Duration.ofSeconds(0));
     }
 }

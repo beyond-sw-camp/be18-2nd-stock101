@@ -83,6 +83,7 @@ public class JwtUtil {
         return !getClaims(token).getExpiration().before(new Date());
     }
 
+
     // JWT(JSON Web Token)에서 클래임을 추출하는 메소드
     private Claims getClaims(String token) {
         // 토큰이 만료되면 parseSignedClaims() 메소드에서

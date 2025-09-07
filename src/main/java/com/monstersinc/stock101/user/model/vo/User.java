@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.SimpleTimeZone;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -24,6 +25,8 @@ public class User implements UserDetails {
     private String email;
 
     private String name;
+
+    private List<String> roles;
 
     private String password;
 
@@ -38,9 +41,8 @@ public class User implements UserDetails {
         // TODO: 관리자 권한 어떻게 처리할지 #박진우
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorities.add(new SimpleGrantedAuthority("admin"));
-
-        return List.of();
+        return this.roles.stream().map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     @Override

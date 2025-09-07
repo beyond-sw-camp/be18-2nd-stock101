@@ -35,12 +35,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private LoginResponse createLoginResponse(User user) {
-        // TODO: 관리자, 매니저 권한 필요시 #auth-001
-        // List<String> authorities = new ArrayList<>();
-        //user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+
+        List<String> rolesList = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
         // AccessToken 생성
-        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId());
+        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId(),rolesList);
 
         return LoginResponse.builder()
                 .accessToken(accessToken)
@@ -48,6 +47,7 @@ public class AuthServiceImpl implements AuthService {
                 .type("Bearer")
                 .issuedAt(jwtUtil.getIssuedAt(accessToken))
                 .expiresAt(jwtUtil.getExpiration(accessToken))
+                .roles(rolesList)
                 .build();
     }
 
@@ -56,5 +56,14 @@ public class AuthServiceImpl implements AuthService {
 
         return jwtTokenProvider.createRefreshToken(userId);
 
+    }
+
+    @Override
+    public void logout(String bearerToken) {
+        String accessToken = jwtTokenProvider.resolveToken(bearerToken);
+
+        // TODO : 로그인/ 로그아웃 레디스 연동 기능 #auth #16
+        jwtTokenProvider.addBlacklist(accessToken);
+        jwtTokenProvider.deleteRefreshToken(accessToken);
     }
 }

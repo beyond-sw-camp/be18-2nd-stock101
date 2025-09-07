@@ -19,8 +19,7 @@ public class LoginResponse {
 
     private final String type;
 
-    // TODO: 관리자, 매니저 권한 필요시 #auth-001
-    // private final List<String> roles;
+    private final List<String> roles;
 
     private final long issuedAt;
 
