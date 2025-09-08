@@ -31,7 +31,7 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(
             @Valid @RequestBody LoginRequestDto loginRequestDto) {
 
-        // ogin에 필요한 정보를 가져온다.
+        // login에 필요한 정보를 가져온다.
         // 사용자 확인
         LoginResponse loginResponse = authService.login(
                 loginRequestDto.getEmail(),

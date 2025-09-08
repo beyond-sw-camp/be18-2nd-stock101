@@ -47,7 +47,7 @@ public class JwtUtil {
     }
 
     // 클래임에서 username을 추출하는 메소드
-    public String getUsername(String token) {
+    public String getUserId(String token) {
 
         return getClaims(token).get("userId", String.class);
     }

@@ -61,8 +61,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout(String bearerToken) {
         String accessToken = jwtTokenProvider.resolveToken(bearerToken);
-
-        // TODO : 로그인/ 로그아웃 레디스 연동 기능 #auth #16
         jwtTokenProvider.addBlacklist(accessToken);
         jwtTokenProvider.deleteRefreshToken(accessToken);
     }
