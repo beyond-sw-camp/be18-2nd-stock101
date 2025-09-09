@@ -47,7 +47,7 @@ public class JwtUtil {
     }
 
     // 클래임에서 username을 추출하는 메소드
-    public String getUsername(String token) {
+    public String getUserId(String token) {
 
         return getClaims(token).get("userId", String.class);
     }
@@ -82,6 +82,7 @@ public class JwtUtil {
         // JWT의 만료 시간(Expiration)을 가져와서 현재 시간과 비교하여 토큰이 만료되었는지 확인
         return !getClaims(token).getExpiration().before(new Date());
     }
+
 
     // JWT(JSON Web Token)에서 클래임을 추출하는 메소드
     private Claims getClaims(String token) {

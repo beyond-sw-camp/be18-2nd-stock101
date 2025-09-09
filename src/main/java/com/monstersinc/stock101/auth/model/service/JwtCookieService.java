@@ -12,4 +12,6 @@ public interface JwtCookieService {
     HttpHeaders createRefreshTokenCookieHeaders(ResponseCookie cookie);
 
     ResponseCookie createRefreshTokenCookie(String refreshToken, Duration duration);
+
+    ResponseCookie deleteRefreshTokenCookie();
 }

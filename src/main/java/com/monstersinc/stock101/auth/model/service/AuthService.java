@@ -7,4 +7,6 @@ public interface AuthService {
     LoginResponse login(@NotBlank String email, @NotBlank String password);
 
     String createRefreshToken(Long userId);
+
+    void logout(String bearerToken);
 }
