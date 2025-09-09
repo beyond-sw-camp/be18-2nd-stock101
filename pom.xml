@@ -39,7 +39,12 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>3.0.5</version>
         </dependency>
-
+        <!-- 외부 restapi 인증을 위한 oauth client 의존성 추가-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        <!-- -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
