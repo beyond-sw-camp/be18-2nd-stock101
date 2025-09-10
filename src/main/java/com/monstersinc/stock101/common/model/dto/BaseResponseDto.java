@@ -11,13 +11,10 @@ import java.util.List;
 @Getter
 @ToString
 public class BaseResponseDto<T> {
-    @Schema(description = "응답 코드", example = "200")
     protected final int code;
 
-    @Schema(description = "응답 메시지", example = "OK")
     protected final String message;
 
-    @Schema(description = "응답 데이터")
     protected final List<T> items;
 
     public BaseResponseDto(HttpStatus status, T item) {

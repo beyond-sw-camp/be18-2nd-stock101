@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("api/v1/board")
+@RequestMapping("/api/v1/board")
 @RequiredArgsConstructor
 public class CommunityController {
     private final CommunityService communityService;
 
+    // 게시물 등록
     @PostMapping("/posts")
     public ResponseEntity<BaseResponseDto<PostResponseDto>> create(
             @Valid @RequestBody PostRequestDto requestDto) {
