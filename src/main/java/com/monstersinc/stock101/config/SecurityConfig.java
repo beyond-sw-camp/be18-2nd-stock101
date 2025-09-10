@@ -21,7 +21,7 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout(logout-> logout.logoutSuccessUrl("/"));
+                .logout(logout-> logout.disable());
 
         return http.build();
     }

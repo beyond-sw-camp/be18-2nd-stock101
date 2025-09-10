@@ -6,12 +6,14 @@ import com.monstersinc.stock101.auth.model.dto.LoginResponse;
 import com.monstersinc.stock101.auth.model.mapper.AuthMapper;
 import com.monstersinc.stock101.user.model.vo.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final RedisTemplate<Object, Object> redisTemplate;
 
     @Override
     public LoginResponse login(String email, String password) {
