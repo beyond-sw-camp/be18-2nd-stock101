@@ -2,4 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.monstersinc.stock101.community.model.mapper.CommunityMapper">
 
+    <sql id="selectPostSql">
+        SELECT
+            post_id,
+            opinion,
+            content,
+            created_at,
+            is_deleted,
+            stock_id,
+            user_id
+        FROM posts
+    </sql>
+
+    <resultMap id="postResultMap" type="Post">
+        <id     property="postId"   column="post_id" />
+        <result property="opinion"  column="opinion" />
+        <result property="content"  column="content" />
+        <result property="createdAt" column="created_at" />
+        <!-- boolean isDeleted -> 자바빈 프로퍼티명 'deleted' 로 매핑 -->
+        <result property="isDeleted"  column="is_deleted" />
+        <result property="stockId"  column="stock_id" />
+        <result property="userId"   column="user_id" />
+    </resultMap>
+
+    <select id="countPostsByStock" resultType="long">
+        SELECT COUNT(*)
+        FROM posts
+        <where>
+            stock_id = #{stockId}
+            AND is_deleted = 0
+        </where>
+    </select>
+
+    <select id="selectPostsByStock"
+            parameterType="map"
+            resultMap="postResultMap">
+        <include refid="selectPostSql" />
+        <where>
+            stock_id = #{stockId}
+            AND is_deleted = 0
+        </where>
+        ORDER BY created_at DESC
+        <!-- LIMIT/OFFSET은 RowBounds로 처리 -->
+    </select>
+
+    <select id="selectPostById"
+            parameterType="int"
+            resultMap="postResultMap">
+        <include refid="selectPostSql" />
+          <where>
+            post_id = #{id}
+          </where>
+    </select>
+
+    <insert id="insertPost"
+            parameterType="Post"
+            useGeneratedKeys="true"
+            keyProperty="postId">
+        INSERT INTO posts (
+            opinion, content, stock_id, user_id
+        ) VALUES (
+                     #{opinion}, #{content}, #{stockId}, #{userId}
+                 )
+    </insert>
+
 </mapper>
