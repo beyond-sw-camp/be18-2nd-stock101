@@ -33,11 +33,7 @@ public class JwtTokenProvider {
         String refreshToken = jwtUtil.createJwtToken(claims, REFRESH_TOKEN_EXPIRATION);
 
         redisTemplate.opsForValue().set(
-                "refresh" + userId, refreshToken, REFRESH_TOKEN_EXPIRATION, TimeUnit.MILLISECONDS);
-
-        // 저장된 값을 다시 읽어서 확인
-        String storedToken = redisTemplate.opsForValue().get("refresh" + userId);
-        System.out.println("Redis에 저장된 리프레시 토큰: " + storedToken);
+                "refresh:" + userId, refreshToken, REFRESH_TOKEN_EXPIRATION, TimeUnit.MILLISECONDS);
 
         return refreshToken;
     }
@@ -65,14 +61,14 @@ public class JwtTokenProvider {
         return accessToken != null
                 && jwtUtil.validateToken(accessToken)
                 && !isBlacklist(accessToken)
-                && !isAccessToken(accessToken);
+                && isAccessToken(accessToken);
     }
 
     public Authentication createAuthentication(String accessToken) {
         String userId = jwtUtil.getUserId(accessToken);
         UserDetails userDetails= userDetailsService.loadUserByUsername(userId);
 
-        return new UsernamePasswordAuthenticationToken(accessToken, null, Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
     private boolean isAccessToken(String accessToken) {

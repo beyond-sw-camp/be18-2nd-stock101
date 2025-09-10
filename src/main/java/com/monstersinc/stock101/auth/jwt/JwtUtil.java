@@ -48,8 +48,7 @@ public class JwtUtil {
 
     // 클래임에서 username을 추출하는 메소드
     public String getUserId(String token) {
-
-        return getClaims(token).get("userId", String.class);
+        return String.valueOf(getClaims(token).get("userId", Long.class));
     }
 
     // 클래임에서 토큰 타입(Token Type)을 추출하는 메소드
