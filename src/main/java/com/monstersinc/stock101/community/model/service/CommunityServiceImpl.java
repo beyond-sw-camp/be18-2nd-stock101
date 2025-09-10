@@ -29,4 +29,13 @@ public class CommunityServiceImpl implements CommunityService {
         }
         return PostResponseDto.of(post);
     }
+
+    @Override
+    public PostResponseDto getPostDetail(int postId) {
+        Post post = communityMapper.selectPostById(postId);
+        if (post == null) {
+            throw new IllegalArgumentException("Post not found: " + postId);
+        }
+        return PostResponseDto.of(post);
+    }
 }

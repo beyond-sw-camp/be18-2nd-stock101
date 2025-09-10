@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,5 +32,12 @@ public class CommunityController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new BaseResponseDto<>(HttpStatus.CREATED, body));
+    }
+
+    // 게시물 상세 조회
+    @GetMapping("/posts/{postId}")
+    public ResponseEntity<BaseResponseDto<PostResponseDto>> detail(@PathVariable int postId) {
+        PostResponseDto dto = communityService.getPostDetail(postId);
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, dto));
     }
 }
