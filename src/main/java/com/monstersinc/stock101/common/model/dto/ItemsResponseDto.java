@@ -1,8 +1,5 @@
 package com.monstersinc.stock101.common.model.dto;
 
-
-import com.monstersinc.stock101.common.model.dto.BaseResponseDto;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;

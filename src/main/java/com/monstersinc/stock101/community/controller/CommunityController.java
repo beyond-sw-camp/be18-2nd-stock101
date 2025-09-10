@@ -2,8 +2,6 @@ package com.monstersinc.stock101.community.controller;
 
 import com.monstersinc.stock101.common.model.dto.BaseResponseDto;
 import com.monstersinc.stock101.common.model.dto.ItemsResponseDto;
-import com.monstersinc.stock101.community.exception.PostException;
-import com.monstersinc.stock101.community.exception.message.ExceptionMessage;
 import com.monstersinc.stock101.community.model.dto.PostRequestDto;
 import com.monstersinc.stock101.community.model.dto.PostResponseDto;
 import com.monstersinc.stock101.community.model.service.CommunityService;

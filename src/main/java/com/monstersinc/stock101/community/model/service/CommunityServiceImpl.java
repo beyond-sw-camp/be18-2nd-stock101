@@ -5,7 +5,6 @@ import com.monstersinc.stock101.community.model.dto.PostResponseDto;
 import com.monstersinc.stock101.community.model.mapper.CommunityMapper;
 import com.monstersinc.stock101.community.model.vo.Post;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
