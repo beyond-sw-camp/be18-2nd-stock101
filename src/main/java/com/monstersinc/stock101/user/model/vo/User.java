@@ -1,9 +1,7 @@
 package com.monstersinc.stock101.user.model.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +17,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class User implements UserDetails {
     private Long userId;
 
@@ -26,7 +25,8 @@ public class User implements UserDetails {
 
     private String name;
 
-    private List<String> roles;
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
 
     private String password;
 
@@ -38,7 +38,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO: 관리자 권한 어떻게 처리할지 #박진우
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         return this.roles.stream().map(SimpleGrantedAuthority::new)
