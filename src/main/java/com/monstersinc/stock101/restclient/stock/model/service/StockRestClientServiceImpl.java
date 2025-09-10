@@ -1,5 +1,6 @@
 package com.monstersinc.stock101.restclient.stock.model.service;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -11,8 +12,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,21 +27,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StockRestClientServiceImpl implements StockRestClientService {
 
+    //application.yml에서 가져오기
     @Value("${apikey.stock-key}")
     private String stockKey;
     @Value("${apikey.stock-Secret}")
     private String stockSecret;
+      
+    //ObjectMapper
 	private final ObjectMapper objectMapper;
 
-    @Override
-    public String test(){
-        RestTemplateBuilder builder = new RestTemplateBuilder();
-        RestTemplate restTemplate = builder.build();
-        Object obj = restTemplate.getForObject("https://jsonplaceholder.typicode.com/posts", Object.class);
-    return obj.toString(); 
-    }
+    //토큰 저장용
+    private TokenResDto.TokenRes tokenRes;
 
-    @Override
     public void getOAuthToken() {
         try {
             RestTemplateBuilder builder = new RestTemplateBuilder();
@@ -52,32 +52,75 @@ public class StockRestClientServiceImpl implements StockRestClientService {
             requestMap.put("appkey", stockKey);
             requestMap.put("appsecret", stockSecret);
             
+            //Map -> JSON
             String jsonBody = objectMapper.writeValueAsString(requestMap);
             
             HttpEntity<String> requestMessage = new HttpEntity<>(jsonBody, httpHeaders);
             
             String URL = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";
+
+            //POST방식으로 요청
             HttpEntity<String> response = restTemplate.exchange(URL, HttpMethod.POST, requestMessage, String.class);
             
+            //JSON -> Object -> DTO
             objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-            
-            TokenResDto.TokenRes tokenRes = objectMapper.readValue(response.getBody(), TokenResDto.TokenRes.class);
-            
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            
-            tokenRes.accessToken();
-            tokenRes.accessTokenTokenExpired();
-            tokenRes.TokenType();
-            tokenRes.expiresIn();
-            System.out.println("Access Token: " + tokenRes.accessToken());
-            System.out.println("Token Expiry: " + tokenRes.accessTokenTokenExpired());
-            System.out.println("Token Type: " + tokenRes.TokenType());
-            System.out.println("Expires In: " + tokenRes.expiresIn() + " seconds");
-            System.out.println("Token Retrieved At: " + LocalDateTime.now().format(formatter));
-            System.out.println("Token Valid Until: " + LocalDateTime.now().plusSeconds(tokenRes.expiresIn()).format(formatter) );
+            tokenRes = objectMapper.readValue(response.getBody(), TokenResDto.TokenRes.class);
+            System.out.println(tokenRes.accessToken());
         }
         catch (Exception e) {
                 e.printStackTrace();    
     }
 }
+
+    //token 유효성 검사
+    private boolean tokenValidYn() {
+        if (tokenRes == null) {
+            return false;
+        }
+        LocalDateTime tokenExpiryTime = LocalDateTime.parse(tokenRes.accessTokenTokenExpired(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return LocalDateTime.now().isBefore(tokenExpiryTime);
+    }
+
+    //주식정보 가져오기
+    @Override
+    public Object getStockInfo(String stockCode) {
+        if(tokenValidYn()){
+            RestTemplateBuilder builder = new RestTemplateBuilder();
+            RestTemplate restTemplate = builder.build();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            httpHeaders.set("authorization", tokenRes.accessToken());
+            httpHeaders.set("appKey", stockKey);
+            httpHeaders.set("appSecret", stockSecret);
+            httpHeaders.set("tr_id", "CTPF1702R");
+
+            // 헤더만 담은 HttpEntity
+            HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+
+            // 쿼리 파라미터 구성
+            @SuppressWarnings("deprecation")
+            URI uri = UriComponentsBuilder
+                    .fromHttpUrl("https://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/search-info")
+                    .queryParam("PRDT_TYPE_CD", "512")   // 나스닥
+                    .queryParam("PDNO", stockCode)       // 종목코드
+                    .build()
+                    .encode()
+                    .toUri();
+
+            // 요청 실행
+            ResponseEntity<Object> response = restTemplate.exchange(
+                    uri,
+                    HttpMethod.GET,
+                    entity,
+                    Object.class
+            );
+
+            return response;
+        } else {
+            getOAuthToken();
+            return getStockInfo(stockCode);
+        }
+    }
+
 }
