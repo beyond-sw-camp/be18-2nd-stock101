@@ -1,6 +1,9 @@
 package com.monstersinc.stock101.community.controller;
 
 import com.monstersinc.stock101.common.model.dto.BaseResponseDto;
+import com.monstersinc.stock101.common.model.dto.ItemsResponseDto;
+import com.monstersinc.stock101.community.exception.PostException;
+import com.monstersinc.stock101.community.exception.message.ExceptionMessage;
 import com.monstersinc.stock101.community.model.dto.PostRequestDto;
 import com.monstersinc.stock101.community.model.dto.PostResponseDto;
 import com.monstersinc.stock101.community.model.service.CommunityService;
@@ -13,7 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -39,5 +45,14 @@ public class CommunityController {
     public ResponseEntity<BaseResponseDto<PostResponseDto>> detail(@PathVariable int postId) {
         PostResponseDto dto = communityService.getPostDetail(postId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, dto));
+    }
+
+    // 종목 별 게시물 리스트 조회
+    @GetMapping("/posts")
+    public ResponseEntity<ItemsResponseDto<PostResponseDto>> list(
+            @RequestParam int stockId) {
+
+        List<PostResponseDto> items = communityService.getPostListByStock(stockId);
+        return ResponseEntity.ok(ItemsResponseDto.ofAll(HttpStatus.OK, items));
     }
 }
