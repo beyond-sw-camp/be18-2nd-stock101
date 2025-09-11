@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ import java.util.List;
 public class CommunityController {
     private final CommunityService communityService;
 
-    // 게시물 등록
+    // 게시물 등록 (로그인 필요)
     @PostMapping("/posts")
     public ResponseEntity<BaseResponseDto<PostResponseDto>> create(
             @Valid @RequestBody PostRequestDto requestDto) {
