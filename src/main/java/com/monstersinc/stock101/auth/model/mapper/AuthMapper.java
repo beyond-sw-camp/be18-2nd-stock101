@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface AuthMapper {
     User selectUserByEmail(@Param("email") String email);
+
+    User selectUserByUserId(@Param("userId") Long userId);
 }

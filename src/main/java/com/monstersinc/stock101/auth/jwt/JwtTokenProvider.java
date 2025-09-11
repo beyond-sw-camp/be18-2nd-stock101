@@ -18,13 +18,13 @@ import java.util.concurrent.TimeUnit;
 public class JwtTokenProvider {
 
     private final JwtUtil jwtUtil;
-    private static final long ACCESS_TOKEN_EXPIRATION = 1000L * 60L * 15; // 15분
+    private static final long ACCESS_TOKEN_EXPIRATION = 1000L * 60L * 60; // 60분
     private static final long REFRESH_TOKEN_EXPIRATION = 1000L * 60L * 60L * 24L; // 1일
     private final RedisTemplate<String, String> redisTemplate;
     private final UserDetailsService userDetailsService;
 
     public String createAccessToken(Long userId, List<String> roles) {
-        Map<String, Object> claims = Map.of("userId", userId, "token_type", "access");
+        Map<String, Object> claims = Map.of("userId", userId, "roles",roles,"token_type", "access");
         return jwtUtil.createJwtToken(claims, ACCESS_TOKEN_EXPIRATION);
     }
 
