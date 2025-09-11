@@ -10,7 +10,7 @@ public interface CommunityService {
 
     PostResponseDto getAPost(long postId);             // 생성 직후/목록용
 
-    PostResponseDto getPostDetail(int postId);
+    PostResponseDto getPostDetail(long postId);
 
-    List<PostResponseDto> getPostListByStock(int stockId);
+    List<PostResponseDto> getPostListByStock(long stockId);
 }

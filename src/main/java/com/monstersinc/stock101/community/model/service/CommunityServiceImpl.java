@@ -33,7 +33,7 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public PostResponseDto getPostDetail(int postId) {
+    public PostResponseDto getPostDetail(long postId) {
         Post post = communityMapper.selectPostById(postId);
         if (post == null) {
             throw new IllegalArgumentException("Post not found: " + postId);
@@ -42,7 +42,7 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public List<PostResponseDto> getPostListByStock(int stockId) {
+    public List<PostResponseDto> getPostListByStock(long stockId) {
         List<Post> rows = communityMapper.selectPostsByStockId(stockId);
         return PostResponseDto.of(rows);
     }

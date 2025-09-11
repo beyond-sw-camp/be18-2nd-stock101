@@ -15,13 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PostResponseDto {
-    private long postId;      // required
-    private long stockId;     // required
-    private long userId;      // required
-    private String opinion;  // required (<= 100 chars)
-    private String content;  // required
-    private String createdAt;// required (string <date-time>)
-    private boolean isDeleted;// required
+    private long postId;
+    private long stockId;
+    private long userId;
+    private String opinion;
+    private String content;
+    private String createdAt;
+    private boolean isDeleted;
 
     public static PostResponseDto of(Post p) {
         return PostResponseDto.builder()

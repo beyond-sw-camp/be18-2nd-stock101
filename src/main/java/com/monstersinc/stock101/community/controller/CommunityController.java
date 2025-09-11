@@ -40,7 +40,7 @@ public class CommunityController {
 
     // 게시물 상세 조회
     @GetMapping("/posts/{postId}")
-    public ResponseEntity<BaseResponseDto<PostResponseDto>> detail(@PathVariable int postId) {
+    public ResponseEntity<BaseResponseDto<PostResponseDto>> detail(@PathVariable long postId) {
         PostResponseDto dto = communityService.getPostDetail(postId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, dto));
     }
@@ -48,7 +48,7 @@ public class CommunityController {
     // 종목 별 게시물 리스트 조회
     @GetMapping("/posts")
     public ResponseEntity<ItemsResponseDto<PostResponseDto>> list(
-            @RequestParam int stockId) {
+            @RequestParam long stockId) {
 
         List<PostResponseDto> items = communityService.getPostListByStock(stockId);
         return ResponseEntity.ok(ItemsResponseDto.ofAll(HttpStatus.OK, items));
