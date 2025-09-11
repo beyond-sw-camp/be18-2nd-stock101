@@ -14,13 +14,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
-    private int postId;
+    private long postId;
     private String opinion;
     private String content;
     private String createdAt;
     private boolean isDeleted;
-    private int stockId;
-    private int userId;
+    private long stockId;
+    private long userId;
 
     public void setPost(@Valid PostRequestDto requestDto){
         this.opinion = requestDto.getOpinion();
