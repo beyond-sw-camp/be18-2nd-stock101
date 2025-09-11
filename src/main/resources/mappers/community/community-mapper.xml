@@ -36,11 +36,11 @@
     </select>
 
     <select id="selectPostById"
-            parameterType="int"
+            parameterType="long"
             resultMap="postResultMap">
         <include refid="selectPostSql" />
           <where>
-            post_id = #{id}
+            post_id = #{postId}
           </where>
     </select>
 

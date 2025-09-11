@@ -6,9 +6,9 @@ import com.monstersinc.stock101.community.model.dto.PostResponseDto;
 import java.util.List;
 
 public interface CommunityService {
-    int save(PostRequestDto dto);                         // 생성
+    long save(PostRequestDto dto);                         // 생성
 
-    PostResponseDto getAPost(int postId);             // 생성 직후/목록용
+    PostResponseDto getAPost(long postId);             // 생성 직후/목록용
 
     PostResponseDto getPostDetail(int postId);
 

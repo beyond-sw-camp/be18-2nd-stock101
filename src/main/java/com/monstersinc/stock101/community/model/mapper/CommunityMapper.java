@@ -10,8 +10,8 @@ import java.util.List;
 public interface CommunityMapper {
     void insertPost(Post post); // XML에서 insertPost는 꼭 useGeneratedKeys="true" keyProperty="postId" 설정!
 
-    Post selectPostById(@Param("id") int id);
+    Post selectPostById(@Param("postId") long postId);
 
-    List<Post> selectPostsByStockId(@Param("stockId") int stockId);
+    List<Post> selectPostsByStockId(@Param("stockId") long stockId);
 }
 

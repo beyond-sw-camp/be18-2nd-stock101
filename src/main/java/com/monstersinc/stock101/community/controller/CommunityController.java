@@ -31,7 +31,7 @@ public class CommunityController {
     public ResponseEntity<BaseResponseDto<PostResponseDto>> create(
             @Valid @RequestBody PostRequestDto requestDto) {
 
-        int newId = communityService.save(requestDto);
+        long newId = communityService.save(requestDto);
         PostResponseDto body = communityService.getAPost(newId);
 
         return ResponseEntity.status(HttpStatus.CREATED)

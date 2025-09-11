@@ -17,14 +17,14 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     @Transactional
-    public int save(PostRequestDto dto) {
+    public long save(PostRequestDto dto) {
         Post post = dto.toPost();
         communityMapper.insertPost(post);
         return post.getPostId();
     }
 
     @Override
-    public PostResponseDto getAPost(int postId) {
+    public PostResponseDto getAPost(long postId) {
         Post post = communityMapper.selectPostById(postId);
         if (post == null) {
             throw new IllegalArgumentException("Post not found: " + postId);

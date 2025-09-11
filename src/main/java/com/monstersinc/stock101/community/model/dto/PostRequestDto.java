@@ -17,10 +17,10 @@ import lombok.Setter;
 @Builder
 public class PostRequestDto {
     @NotNull
-    private Integer stockId;
+    private long stockId;
 
     @NotNull
-    private Integer userId;
+    private long userId;
 
     @NotBlank
     @Size(max = 100)

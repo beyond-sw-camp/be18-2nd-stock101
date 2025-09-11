@@ -15,9 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PostResponseDto {
-    private int postId;      // required
-    private int stockId;     // required
-    private int userId;      // required
+    private long postId;      // required
+    private long stockId;     // required
+    private long userId;      // required
     private String opinion;  // required (<= 100 chars)
     private String content;  // required
     private String createdAt;// required (string <date-time>)
