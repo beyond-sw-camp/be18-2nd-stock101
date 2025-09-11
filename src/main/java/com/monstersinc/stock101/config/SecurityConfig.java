@@ -24,17 +24,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth-> auth
-                        .requestMatchers("/api/v1/auth/login").permitAll()
-
-                        // 2) 게시물 등록 회원만
-                        .requestMatchers(HttpMethod.POST, "/api/v1/board/posts").authenticated()
-
-                        // 3) 조회는 공개
-                        .requestMatchers(HttpMethod.GET, "/api/v1/board/posts/**").permitAll()
+                        .requestMatchers("/api/v1/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout-> logout.disable());
 
         return http.build();
