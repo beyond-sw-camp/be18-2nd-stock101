@@ -1,13 +1,9 @@
 package com.monstersinc.stock101.restclient.stock.model.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
 
 @Data
-@Getter
-@ToString
-public class StockInforesDto {
+public class StockInfoResDto {
     private String stockCode;
     private String stockName;
     private Double price;

@@ -159,7 +159,7 @@ public class StockRestClientServiceImpl implements StockRestClientService {
             // 쿼리 파라미터 구성
             @SuppressWarnings("deprecation")
             URI uri = UriComponentsBuilder
-                    .fromHttpUrl("ttps://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/inquire-asking-price")
+                    .fromHttpUrl("https://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/inquire-asking-price")
                     .queryParam("AUTH", " ")
                     .queryParam("EXCD", "NAS")   // 나스닥
                     .queryParam("SYMB", stockCode)       // 종목코드
