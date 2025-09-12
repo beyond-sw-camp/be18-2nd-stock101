@@ -33,6 +33,22 @@
 
         WHERE email = #{email};
     </select>
+
+    <select id="selectUserByUserId" parameterType="long" resultMap="userResultMap">
+        SELECT u.user_id,
+               user_name,
+               email,
+               password,
+               created_at,
+               last_login_at,
+               tier_code,
+               r.role_name
+        FROM users u
+                 LEFT JOIN  user_roles ur ON u.user_id =ur.user_id
+                 LEFT JOIN  roles r ON r.role_id =ur.user_id
+        WHERE u.user_id = #{userId};
+    </select>
+
 </mapper>
 
 
