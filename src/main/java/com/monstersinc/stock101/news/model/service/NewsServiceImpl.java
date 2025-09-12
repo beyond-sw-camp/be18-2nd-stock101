@@ -16,4 +16,9 @@ public class NewsServiceImpl implements NewsService {
     public List<News> getPopularNews() {
         return newsMapper.selectPopularNews();
     }
+
+    @Override
+    public void clickNews(long newsId) {
+        newsMapper.updateNewsClick(newsId);
+    }
 }

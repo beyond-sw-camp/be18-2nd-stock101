@@ -29,4 +29,11 @@
         ORDER BY click_count DESC, published_at DESC
         LIMIT 6
     </select>
+
+    <!--  뉴스 id로 click_count 증가  -->
+    <update id="updateNewsClick">
+        UPDATE news
+        SET click_count = click_count + 1
+        WHERE news_id = #{newsId}
+    </update>
 </mapper>
