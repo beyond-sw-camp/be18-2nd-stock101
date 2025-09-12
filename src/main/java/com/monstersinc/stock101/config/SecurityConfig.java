@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/board/posts/**").permitAll()
 
                         // 4) 뉴스 조회, 클릭카운트 업데이트는 공개
-                        .requestMatchers(HttpMethod.POST, "api/v1/news/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/news/**").permitAll()
                         // 나머지 요청은 일단 모두 허용.
                         .anyRequest().permitAll()
                 )
