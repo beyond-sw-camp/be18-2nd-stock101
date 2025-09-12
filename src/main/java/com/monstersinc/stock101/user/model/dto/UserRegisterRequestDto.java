@@ -1,6 +1,8 @@
 package com.monstersinc.stock101.user.model.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +16,16 @@ import java.util.List;
 @AllArgsConstructor
 public class UserRegisterRequestDto {
 
+    @Email()
     @NotBlank(message = "이름은 필수 입력 값입니다.")
     private String name;
 
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
     private String email;
 
-    // TODO : 비밀번호 조합 확인하는 로직 구현 필요 #auth-003
     @NotBlank(message = "비밀번호는 필 수 입력 값입니다.")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{8,}$",
+            message = "비밀번호는 8자 이상, 영문 , 숫자를 포함해야 합니다.")
     private String password;
 
 }
