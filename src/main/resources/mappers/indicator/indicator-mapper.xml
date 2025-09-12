@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.monstersinc.stock101.indicator.model.mapper.IndicatorMapper">
+
+    <sql id="selectIndividualIndicatorSql">
+        SELECT
+            stock_id,
+             date,
+            result,
+            strong_sell,
+            sell,
+            hold,
+            buy,
+            strong_buy
+        FROM individual_indicators
+    </sql>
+
+    <sql id="selectAnalystIndicatorSql">
+        SELECT
+            stock_id,
+            date,
+            result,
+            strong_sell,
+            sell,
+            hold,
+            buy,
+            strong_buy
+        FROM analyst_indicators
+    </sql>
+
+    <sql id="selectNewsIndicatorSql">
+    SELECT
+        stock_id,
+        date,
+        result,
+        strong_sell,
+        sell,
+        hold,
+        buy,
+        strong_buy
+    FROM news_indicators
+</sql>
+
+    // 개미 지표 ResultMap
+    <resultMap id="individualIndicatorResultMap" type="IndividualIndicator">
+        <id     property="stockId"   column="stock_id" />
+        <result   property="date"   column="date" />
+        <result property="result"  column="result" />
+        <result property="strongSell"  column="strong_sell" />
+        <result property="sell"  column="sell" />
+        <result property="hold"  column="hold" />
+        <result property="buy"  column="buy" />
+        <result property="strongBuy"  column="strong_buy" />
+    </resultMap>
+
+    // 애널리스트 지표 ResultMap
+    <resultMap id="analystIndicatorResultMap" type="AnalystIndicator">
+        <id     property="stockId"   column="stock_id" />
+        <result   property="date"   column="date" />
+        <result property="result"  column="result" />
+        <result property="strongSell"  column="strong_sell" />
+        <result property="sell"  column="sell" />
+        <result property="hold"  column="hold" />
+        <result property="buy"  column="buy" />
+        <result property="strongBuy"  column="strong_buy" />
+    </resultMap>
+
+    // 뉴스 지표 ResultMap
+    <resultMap id="newsIndicatorResultMap" type="NewsIndicator">
+        <id     property="stockId"   column="stock_id" />
+        <result property="date"   column="date" />
+        <result property="result"  column="result" />
+        <result property="strongSell"  column="strong_sell" />
+        <result property="sell"  column="sell" />
+        <result property="hold"  column="hold" />
+        <result property="buy"  column="buy" />
+        <result property="strongBuy"  column="strong_buy" />
+        <result property="buyNewsId" column="buy_news_id"/>
+        <result property="sellNewsId" column="sell_news_id"/>
+    </resultMap>
+
+    // Stock ID로 최신 개미 지표 조회
+    <select id="selectIndividualIndicatorByStockId"
+            parameterType="long"
+            resultMap="individualIndicatorResultMap">
+        <include refid="selectIndividualIndicatorSql" />
+        <where>
+            stock_id = #{stockId}
+        </where>
+        ORDER BY date DESC
+        LIMIT 1
+    </select>
+
+    // Stock ID로 최신 애널리스트 지표 조회
+    <select id="selectAnalystIndicatorByStockId"
+            parameterType="long"
+            resultMap="analystIndicatorResultMap">
+        <include refid="selectAnalystIndicatorSql" />
+        <where>
+            stock_id = #{stockId}
+        </where>
+        ORDER BY date DESC
+        LIMIT 1
+    </select>
+
+    // Stock ID로 최신 뉴스 지표 조회
+    <select id="selectNewsIndicatorByStockId"
+            parameterType="long"
+            resultMap="newsIndicatorResultMap">
+        <include refid="selectNewsIndicatorSql" />
+        <where>
+            stock_id = #{stockId}
+        </where>
+        ORDER BY date DESC
+        LIMIT 1
+    </select>
+</mapper>
