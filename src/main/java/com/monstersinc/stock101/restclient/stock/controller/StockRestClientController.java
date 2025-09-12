@@ -19,9 +19,14 @@ public class StockRestClientController {
     private final StockRestClientService stockRestClientService;
 
     @GetMapping("rest-client/getstockinfo/{stockCode}")
-    public Object getStockInfo(@PathVariable("stockCode") String stockCode) {
-    stockRestClientService.getStockInfo(stockCode);
-        return null;
+    public Object getStockInfo(@PathVariable String stockCode) {
+    Object object = stockRestClientService.getStockInfo(stockCode);
+        return object;
     }
     
+    @GetMapping("rest-client/getstockprice/{stockCode}")
+    public Object getStockprice(@PathVariable String stockCode) {
+    Object object = stockRestClientService.getStockprice(stockCode);
+        return object;
+    }
 }       
