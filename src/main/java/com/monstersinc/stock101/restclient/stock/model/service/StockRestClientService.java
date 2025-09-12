@@ -1,5 +1,7 @@
 package com.monstersinc.stock101.restclient.stock.model.service;
 
+import com.monstersinc.stock101.restclient.stock.model.dto.StockInfoResDto;
+
 public interface StockRestClientService {
-    Object getStockInfo(String stockCode);
+    StockInfoResDto getFinancialInfo(String ticker, String timeframe);
 }
