@@ -21,8 +21,6 @@ public class JwtUtil {
     private final SecretKey secretKey;
 
     public JwtUtil(JwtProperties jwtProperties) {
-        log.info("JWT Issuer: {}", jwtProperties.getIssuer());
-        log.info("JWT Secret: {}", jwtProperties.getSecret());
 
         this.issuer = jwtProperties.getIssuer();
         this.secretKey = new SecretKeySpec(
