@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/news/**").permitAll()
 
                         // 5) 주식은 조회만 있으므로 공개
-                        .requestMatchers(HttpMethod.POST, "/api/v1/stocks/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/stock/**").permitAll()
                         // 나머지 요청은 일단 모두 허용.
                         .anyRequest().permitAll()
                 )

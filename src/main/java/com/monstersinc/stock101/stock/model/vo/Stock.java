@@ -20,7 +20,7 @@ public class Stock {
     private Double price;              // 종가
     private Double fluctuation;        // 등락률
     private String industryCode;       // 산업 코드 (FK)
-    private String industryName;       // 산업 코드 (FK)
+    private String industryName;       // 산업 이름 (FK)
     private String sectorCode;         // 섹터 코드 (FK)
-    private String sectorName;         // 섹터 코드 (FK)
+    private String sectorName;         // 섹터 이름 (FK)
 }

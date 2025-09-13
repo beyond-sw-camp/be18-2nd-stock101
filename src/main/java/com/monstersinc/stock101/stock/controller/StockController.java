@@ -14,17 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/stocks")
+@RequestMapping("/api/v1/stock")
 @RequiredArgsConstructor
 public class StockController {
     private final StockService stockService;
 
+    // 모든 주식 정보 조회
     @GetMapping
     public ResponseEntity<ItemsResponseDto<Stock>> getAllStocks() {
         List<Stock> stocks = stockService.getStockList();
         return ResponseEntity.ok(ItemsResponseDto.ofAll(HttpStatus.OK, stocks));
     }
 
+    // 특정 주식 정보 조회
     @GetMapping("/{stockId}")
     public ResponseEntity<Stock> getStockById(@PathVariable long stockId) {
         Stock stock = stockService.getStockById(stockId);
