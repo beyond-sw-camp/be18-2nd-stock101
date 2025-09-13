@@ -1,25 +1,11 @@
 package com.monstersinc.stock101.restclient.stock.model.service;
-
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monstersinc.stock101.restclient.stock.model.dto.TokenResDto;
+import com.monstersinc.stock101.restclient.stock.model.PolygonResponse;
+import com.monstersinc.stock101.restclient.stock.model.dto.StockInfoResDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,97 +16,76 @@ public class StockRestClientServiceImpl implements StockRestClientService {
     //application.yml에서 가져오기
     @Value("${apikey.stock-key}")
     private String stockKey;
-    @Value("${apikey.stock-Secret}")
-    private String stockSecret;
-      
-    //ObjectMapper
-	private final ObjectMapper objectMapper;
 
-    //토큰 저장용
-    private TokenResDto.TokenRes tokenRes;
+    private final ObjectMapper objectMapper;
 
-    public void getOAuthToken() {
-        try {
-            RestTemplateBuilder builder = new RestTemplateBuilder();
-            RestTemplate restTemplate = builder.build();
-            
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            
-            Map<String, String> requestMap = new HashMap<>();
-            requestMap.put("grant_type", "client_credentials");
-            requestMap.put("appkey", stockKey);
-            requestMap.put("appsecret", stockSecret);
-            
-            //Map -> JSON
-            String jsonBody = objectMapper.writeValueAsString(requestMap);
-            
-            HttpEntity<String> requestMessage = new HttpEntity<>(jsonBody, httpHeaders);
-            
-            String URL = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";
+    private StockInfoResDto stockInfoResDto;
 
-            //POST방식으로 요청
-            HttpEntity<String> response = restTemplate.exchange(URL, HttpMethod.POST, requestMessage, String.class);
-            
-            //JSON -> Object -> DTO
-            objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-            tokenRes = objectMapper.readValue(response.getBody(), TokenResDto.TokenRes.class);
-            System.out.println(tokenRes.accessToken());
-        }
-        catch (Exception e) {
-                e.printStackTrace();    
-    }
-}
+    private final RestTemplate restTemplate;
 
-    //token 유효성 검사
-    private boolean tokenValidYn() {
-        if (tokenRes == null) {
-            return false;
-        }
-        LocalDateTime tokenExpiryTime = LocalDateTime.parse(tokenRes.accessTokenTokenExpired(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        return LocalDateTime.now().isBefore(tokenExpiryTime);
-    }
+    // @Override
+    // public Object getStockInfo(String stockCode) {
+    //     RestTemplateBuilder builder = new RestTemplateBuilder();
+    //     RestTemplate restTemplate = builder.build();
+    //     String url = "https://api.polygon.io/vX/last/stocks/" + stockCode + "?apikey=" + stockKey;
 
-    //주식정보 가져오기
+
+    // }
+    //재무제표 가져오기
+
+    // 진짜 머리뽑으면서 짠 코드 
     @Override
-    public Object getStockInfo(String stockCode) {
-        if(tokenValidYn()){
-            RestTemplateBuilder builder = new RestTemplateBuilder();
-            RestTemplate restTemplate = builder.build();
+    public StockInfoResDto getFinancialInfo(String ticker, String timeframe) {
+            try{
+                String url = "https://api.polygon.io/vX/reference/financials"
+                    + "?ticker=" + ticker
+                    + "&timeframe=" + timeframe 
+                    + "&limit=4"
+                    + "&apikey=" + stockKey;
 
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            httpHeaders.set("authorization", tokenRes.accessToken());
-            httpHeaders.set("appKey", stockKey);
-            httpHeaders.set("appSecret", stockSecret);
-            httpHeaders.set("tr_id", "CTPF1702R");
+                String body = restTemplate.getForObject(url, String.class);
+                PolygonResponse pr = objectMapper.readValue(body, PolygonResponse.class);
 
-            // 헤더만 담은 HttpEntity
-            HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+                if (pr.getResults() == null || pr.getResults().size() < 2) {
+                    throw new IllegalArgumentException("재무제표가 충분하지 않습니다" + ticker);
+                }
 
-            // 쿼리 파라미터 구성
-            @SuppressWarnings("deprecation")
-            URI uri = UriComponentsBuilder
-                    .fromHttpUrl("https://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/search-info")
-                    .queryParam("PRDT_TYPE_CD", "512")   // 나스닥
-                    .queryParam("PDNO", stockCode)       // 종목코드
-                    .build()
-                    .encode()
-                    .toUri();
+                var r0 = pr.getResults().get(0);
+                var r1 = pr.getResults().get(1);
 
-            // 요청 실행
-            ResponseEntity<Object> response = restTemplate.exchange(
-                    uri,
-                    HttpMethod.GET,
-                    entity,
-                    Object.class
-            );
+                var bs0 = r0.getFinancials().getBalanceSheet();
+                var bs1 = r1.getFinancials().getBalanceSheet();
+                var is0 = r0.getFinancials().getIncomeStatement();
 
-            return response;
-        } else {
-            getOAuthToken();
-            return getStockInfo(stockCode);
-        }
+                double eq0 = nz(bs0.getEquityAttributableToParent().getValue());
+                double eq1 = nz(bs1.getEquityAttributableToParent().getValue());
+                double assets0 = nz(bs0.getAssets().getValue());
+                double assets1 = nz(bs1.getAssets().getValue());
+
+                double netIncome = nz(is0.getNetIncomeLoss().getValue());
+                double epsBasic  = nz(is0.getBasicEps().getValue());
+                double shares    = nz(is0.getBasicAverageShares().getValue());
+
+                double avgEq = (eq0 + eq1) / 2.0;
+                double avgAssets = (assets0 + assets1) / 2.0;
+
+                Double roe = (avgEq == 0) ? null : netIncome / avgEq;
+                Double roa = (avgAssets == 0) ? null : netIncome / avgAssets;
+                Double bps = (shares == 0) ? null : eq0 / shares;
+                return StockInfoResDto.builder()
+                    .ticker(ticker)
+                    .timeframe(timeframe)
+                    .periodEnd(r0.getEndDate())
+                    .roe(roe)
+                    .roa(roa)
+                    .eps(Double.isFinite(epsBasic) ? epsBasic : null)
+                    .bps(bps)
+                    .build();
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
     }
-
+    private double nz(Double val) {
+        return (val == null) ? 0.0 : val;
+    }   
 }

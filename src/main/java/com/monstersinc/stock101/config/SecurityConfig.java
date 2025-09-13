@@ -27,10 +27,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/login").permitAll()
 
                         // 2) 게시물 등록 회원만
-                        .requestMatchers(HttpMethod.POST, "/api/v1/bdmdoard/posts").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/board/posts").authenticated()
 
                         // 3) 조회는 공개
                         .requestMatchers(HttpMethod.GET, "/api/v1/board/posts/**").permitAll()
+
+                        // 4) 뉴스 조회, 클릭카운트 업데이트는 공개
+                        .requestMatchers(HttpMethod.POST, "/api/v1/news/**").permitAll()
                         // 나머지 요청은 일단 모두 허용.
                         .anyRequest().permitAll()
                 )
